@@ -16,8 +16,30 @@
 #    Object Properties
 #################################################################
 
+###  http://example/pl/hasNeighbor
+<http://example/pl/hasNeighbor> rdf:type owl:ObjectProperty ;
+                                rdfs:subPropertyOf owl:topObjectProperty ;
+                                rdf:type owl:SymmetricProperty .
+
+
 ###  http://example/pl/hasSatellite
-<http://example/pl/hasSatellite> rdf:type owl:ObjectProperty .
+<http://example/pl/hasSatellite> rdf:type owl:ObjectProperty ;
+                                 owl:inverseOf <http://example/pl/orbitsPlanet> .
+
+
+###  http://example/pl/largerThan
+<http://example/pl/largerThan> rdf:type owl:ObjectProperty ;
+                               owl:inverseOf <http://example/pl/smallerThan> ;
+                               rdf:type owl:TransitiveProperty .
+
+
+###  http://example/pl/orbitsPlanet
+<http://example/pl/orbitsPlanet> rdf:type owl:ObjectProperty .
+
+
+###  http://example/pl/smallerThan
+<http://example/pl/smallerThan> rdf:type owl:ObjectProperty ,
+                                         owl:TransitiveProperty .
 
 
 #################################################################
@@ -91,7 +113,13 @@ rdfs:label rdf:type owl:DatatypeProperty .
                                                                                                 ]
                                                                                      ]
                                                                          ]
-                                                    ] .
+                                                    ] ;
+                                    rdfs:comment "The planets as known during classical antiquity" .
+
+
+###  http://example/pl/DesertPlanet
+<http://example/pl/DesertPlanet> rdf:type owl:Class ;
+                                 rdfs:subClassOf <http://example/pl/Planet> .
 
 
 ###  http://example/pl/DwarfPlanet
@@ -117,16 +145,44 @@ rdfs:label rdf:type owl:DatatypeProperty .
                                                                                             ]
                                                                                  ]
                                                                      ]
-                                                ] .
+                                                ] ;
+                                rdfs:comment "a celestial body resembling a small planet but lacking certain technical criteria that are required for it to be classed as such" .
 
 
 ###  http://example/pl/IceGiant
 <http://example/pl/IceGiant> rdf:type owl:Class ;
-                             rdfs:subClassOf <http://example/pl/Planet> .
+                             rdfs:subClassOf <http://example/pl/Planet> ;
+                             rdfs:comment "Planets of mass similar to Uranus or Neptune; smaller than the gas giants, but still much larger than Earth." .
+
+
+###  http://example/pl/IcePlanet
+<http://example/pl/IcePlanet> rdf:type owl:Class ;
+                              rdfs:subClassOf <http://example/pl/Planet> .
+
+
+###  http://example/pl/InferiorPlanet
+<http://example/pl/InferiorPlanet> rdf:type owl:Class ;
+                                   rdfs:subClassOf <http://example/pl/Planet> ;
+                                   rdfs:comment "Planets whose orbits lie within the orbit of Earth" .
+
+
+###  http://example/pl/IronPlanet
+<http://example/pl/IronPlanet> rdf:type owl:Class ;
+                               rdfs:subClassOf <http://example/pl/Planet> .
+
+
+###  http://example/pl/LavaPlanet
+<http://example/pl/LavaPlanet> rdf:type owl:Class ;
+                               rdfs:subClassOf <http://example/pl/Planet> .
 
 
 ###  http://example/pl/Moon
 <http://example/pl/Moon> rdf:type owl:Class .
+
+
+###  http://example/pl/OceanPlanet
+<http://example/pl/OceanPlanet> rdf:type owl:Class ;
+                                rdfs:subClassOf <http://example/pl/Planet> .
 
 
 ###  http://example/pl/Planet
@@ -139,17 +195,26 @@ rdfs:label rdf:type owl:DatatypeProperty .
                                                     [ rdf:type owl:Restriction ;
                                                       owl:onProperty <http://example/pl/hasSatellite> ;
                                                       owl:someValuesFrom <http://example/pl/Planet>
-                                                    ] .
+                                                    ] ;
+                                    rdfs:comment "Planets that have orbiting natural satellites" .
+
+
+###  http://example/pl/SubEarth
+<http://example/pl/SubEarth> rdf:type owl:Class ;
+                             rdfs:subClassOf <http://example/pl/Planet> ;
+                             rdfs:comment "A classification of planets \"substantially less massive\" than Earth and Venus." .
 
 
 ###  http://example/pl/SuperiorPlanet
 <http://example/pl/SuperiorPlanet> rdf:type owl:Class ;
-                                   rdfs:subClassOf <http://example/pl/Planet> .
+                                   rdfs:subClassOf <http://example/pl/Planet> ;
+                                   rdfs:comment "Planets whose orbits lie outside the orbit of Earth." .
 
 
 ###  http://example/pl/TerrestrialPlanet
 <http://example/pl/TerrestrialPlanet> rdf:type owl:Class ;
-                                      rdfs:subClassOf <http://example/pl/Planet> .
+                                      rdfs:subClassOf <http://example/pl/Planet> ;
+                                      rdfs:comment "Also known as a telluric planet or rocky planet. A planet that is composed primarily of carbonaceous or silicate rocks or metals." .
 
 
 #################################################################
@@ -539,6 +604,7 @@ rdfs:label rdf:type owl:DatatypeProperty .
 ###  http://example/pl/Earth
 <http://example/pl/Earth> rdf:type owl:NamedIndividual ,
                                    <http://example/pl/Planet> ;
+                          <http://example/pl/hasNeighbor> <http://example/pl/Mars> ;
                           <http://example/pl/hasSatellite> <http://example/pl/Moon> ;
                           <http://example/pl/hasEquatorialDiameter> "1.000" ;
                           <http://example/pl/hasMass> "1.00" ;
@@ -1319,7 +1385,6 @@ rdfs:label rdf:type owl:DatatypeProperty .
 
 ###  http://example/pl/Moon
 <http://example/pl/Moon> rdf:type owl:NamedIndividual ,
-                                  owl:Class ,
                                   <http://example/pl/Moon> ;
                          <http://example/pl/hasDiscoveryYear> "Prehistoric" ;
                          <http://example/pl/hasMeanRadius> "1,738" ;
